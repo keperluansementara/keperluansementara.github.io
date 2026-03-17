@@ -619,7 +619,7 @@ export default function App() {
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full px-6">
                 {/* Tombol WA diperbaiki agar harmonis dengan tema */}
                 <a
-                  href="https://wa.me/yourwhatsappnumber"
+                  href="https://wa.me/6285694318667"
                   target="_blank"
                   rel="noreferrer"
                   className="w-full sm:w-auto px-10 py-5 bg-[#121212] border border-[#25D366]/30 text-white text-[14px] font-bold rounded-full hover:bg-[#25D366]/10 hover:border-[#25D366] transition-all tracking-wide flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(37,211,102,0.05)] hover:shadow-[0_0_30px_rgba(37,211,102,0.2)] group"
@@ -627,7 +627,7 @@ export default function App() {
                   <MessageCircle size={20} className="text-[#25D366] group-hover:scale-110 transition-transform" /> CHAT WHATSAPP
                 </a>
                 <a
-                  href="mailto:hello@suryo.ai"
+                  href="mailto:keperluansementara@suryostudio.ai"
                   className="w-full sm:w-auto px-10 py-5 bg-white text-black text-[14px] font-bold rounded-full hover:bg-gray-200 transition-all tracking-wide flex items-center justify-center gap-3"
                 >
                   <Calendar size={20} /> SCHEDULE CALL
@@ -643,7 +643,7 @@ export default function App() {
         <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10">
           <div className="flex flex-wrap justify-center gap-8 text-[11px] font-bold tracking-[0.2em] text-white/40 uppercase">
             <a href="#" className="hover:text-white transition-colors">Twitter</a>
-            <a href="#" className="hover:text-white transition-colors">GitHub</a>
+            <a href="https://github.com/keperluansementara" className="hover:text-white transition-colors">GitHub</a>
             <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
           </div>
 
