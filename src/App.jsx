@@ -139,25 +139,7 @@ const AIDemo = () => {
   );
 };
 
-// --- Data Konstan (Pemisahan Data dari UI) ---
-const CASE_STUDIES = [
-  {
-    id: "01",
-    title: "Optimasi Latensi Vector Search",
-    client: "Global Logistics Corp",
-    challenge: "Hasil pencarian memakan waktu >2s karena indeks database yang tidak teroptimasi melintasi 1M+ chunk dokumen.",
-    solution: "Menerapkan indeks HNSW dengan filter metadata kustom, menggabungkan pencarian hybrid.",
-    impact: "Mengurangi latensi 85% menjadi <300ms. Sistem menangani 5x user bersamaan tanpa masalah."
-  },
-  {
-    id: "02",
-    title: "Integrasi CRM Multi-Agent",
-    client: "FinTech Hub",
-    challenge: "Kebutuhan agen otonom untuk menangani tiket dukungan pelanggan yang kompleks dengan akurasi 99.9%.",
-    solution: "Merancang arsitektur agen hierarkis menggunakan LangGraph untuk mengelola state & verifikasi output.",
-    impact: "Berhasil mengotomatisasi 60% tiket manual dengan feedback positif dari pelanggan."
-  }
-];
+// --- DATA CASE STUDIES DIHAPUS KARENA REDUNDAN DENGAN PROJECTS ---
 
 // DATA PROYEK BARU
 const PROJECTS = [
@@ -219,8 +201,19 @@ export default function App() {
   }, []);
 
   const scrollToSection = (id) => {
-    setMobileMenuOpen(false); // Tutup menu mobile setelah klik
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      // Menambahkan offset agar judul tidak tertutup header yang fixed
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
@@ -300,9 +293,10 @@ export default function App() {
 
           {/* Menu Desktop */}
           <nav className="hidden md:flex items-center gap-10 text-[13px] font-medium text-white/50 tracking-wide">
+            <button onClick={() => scrollToSection('problem')} className="hover:text-white transition-colors">APPROACH</button>
             <button onClick={() => scrollToSection('services')} className="hover:text-white transition-colors">SERVICES</button>
-            <button onClick={() => scrollToSection('process')} className="hover:text-white transition-colors">PROCESS</button>
             <button onClick={() => scrollToSection('projects')} className="hover:text-white transition-colors">WORK</button>
+            <button onClick={() => scrollToSection('demo')} className="hover:text-white transition-colors">DEMO</button>
             <button
               onClick={() => scrollToSection('contact')}
               className="bg-white/5 px-5 py-2 rounded-full border border-white/10 text-white hover:bg-white/10 transition-all"
@@ -321,12 +315,13 @@ export default function App() {
           </button>
         </div>
 
-        {/* --- MENU MOBILE (Telah Ditambahkan) --- */}
-        <div className={`md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 transition-all duration-300 overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+        {/* --- MENU MOBILE --- */}
+        <div className={`md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 transition-all duration-300 overflow-hidden ${mobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
           <div className="flex flex-col px-6 py-6 gap-6 text-sm font-medium text-white/70">
+            <button onClick={() => scrollToSection('problem')} className="text-left py-2 hover:text-white">APPROACH</button>
             <button onClick={() => scrollToSection('services')} className="text-left py-2 hover:text-white">SERVICES</button>
-            <button onClick={() => scrollToSection('process')} className="text-left py-2 hover:text-white">PROCESS</button>
             <button onClick={() => scrollToSection('projects')} className="text-left py-2 hover:text-white">WORK</button>
+            <button onClick={() => scrollToSection('demo')} className="text-left py-2 hover:text-white">DEMO</button>
             <button onClick={() => scrollToSection('contact')} className="text-left py-2 hover:text-white">LET'S TALK</button>
           </div>
         </div>
@@ -577,8 +572,9 @@ export default function App() {
                     <button className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white text-black text-[13px] font-bold rounded-full hover:bg-gray-200 hover:scale-105 transition-all">
                       Live Demo <ExternalLink size={16} />
                     </button>
-                    <button className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white text-[13px] font-bold rounded-full hover:bg-white/10 transition-all">
-                      Case Study <ArrowRight size={16} />
+                    {/* Tombol Case Study dinonaktifkan sementara/ubah jadi coming soon jika tidak ada halaman detail */}
+                    <button className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-transparent border border-white/20 text-white/50 text-[13px] font-bold rounded-full cursor-not-allowed">
+                      Detail Project (Soon)
                     </button>
                   </div>
 
@@ -588,56 +584,13 @@ export default function App() {
           </div>
         </section>
 
-        {/* --- CASE STUDY SECTION (Diperbaiki) --- */}
-        <section id="casestudy" className="py-20 md:py-32 bg-white/[0.02] border-y border-white/10 px-6 md:px-8 relative z-10">
-          <div className="max-w-[1200px] mx-auto">
-            <Reveal>
-              <h2 className="text-[12px] font-bold tracking-[0.3em] text-white/40 uppercase mb-12 md:mb-16">Deep Dives</h2>
-            </Reveal>
-
-            <div className="space-y-8 md:space-y-12">
-              {CASE_STUDIES.map((study, i) => (
-                <Reveal key={i} delay={i * 100}>
-                  <div className="premium-border rounded-[2rem] bg-black/60 p-6 md:p-12 hover:bg-white/[0.03] transition-all border border-white/5">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10">
-
-                      {/* Kolom Judul & Klien */}
-                      <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 pb-6 lg:pb-0 lg:pr-8">
-                        <div className="text-indigo-400 font-bold mb-3 md:mb-4 text-xs tracking-widest">CASE STUDY {study.id}</div>
-                        <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">{study.title}</h3>
-                        <div className="text-white/40 text-xs font-bold uppercase tracking-widest">{study.client}</div>
-                      </div>
-
-                      {/* Kolom Detail (Diperbaiki: Menambahkan Grid 3 Kolom untuk Solution) */}
-                      <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        <div>
-                          <h4 className="text-[11px] font-bold text-white/60 mb-3 flex items-center gap-2 uppercase tracking-widest"><Search size={14} className="text-red-400" /> Challenge</h4>
-                          <p className="text-white/50 text-sm font-medium leading-relaxed">{study.challenge}</p>
-                        </div>
-                        <div>
-                          {/* Bug diperbaiki: Merender isi dari study.solution */}
-                          <h4 className="text-[11px] font-bold text-white/60 mb-3 flex items-center gap-2 uppercase tracking-widest"><Lightbulb size={14} className="text-yellow-400" /> Solution</h4>
-                          <p className="text-white/50 text-sm font-medium leading-relaxed">{study.solution}</p>
-                        </div>
-                        <div>
-                          <h4 className="text-[11px] font-bold text-white/60 mb-3 flex items-center gap-2 uppercase tracking-widest"><CheckCircle2 size={14} className="text-green-400" /> Impact</h4>
-                          <p className="text-white/50 text-sm font-medium leading-relaxed">{study.impact}</p>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* --- SECTION CASE STUDY DIHAPUS (DIGABUNG KE PROJECTS) --- */}
 
         {/* --- SKILLS / TECH --- */}
-        <section id="skills" className="py-20 md:py-32 px-6 md:px-8 relative z-10">
+        <section id="skills" className="py-20 md:py-32 px-6 md:px-8 relative z-10 border-t border-white/5 bg-white/[0.01]">
           <div className="max-w-[1200px] mx-auto text-center">
             <Reveal>
-              <h2 className="text-[12px] font-bold tracking-[0.3em] text-white/40 uppercase mb-12 md:mb-20">The Stack</h2>
+              <h2 className="text-[12px] font-bold tracking-[0.3em] text-white/40 uppercase mb-12 md:mb-20">Tools & Technologies</h2>
             </Reveal>
 
             <div className="flex flex-wrap justify-center gap-6 md:gap-12 opacity-50">
@@ -664,17 +617,18 @@ export default function App() {
               </p>
 
               <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full px-6">
+                {/* Tombol WA diperbaiki agar harmonis dengan tema */}
                 <a
                   href="https://wa.me/yourwhatsappnumber"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full sm:w-auto px-10 py-5 bg-[#25D366] text-black text-[14px] font-bold rounded-full hover:bg-[#20b858] hover:scale-105 transition-all tracking-wide flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(37,211,102,0.2)]"
+                  className="w-full sm:w-auto px-10 py-5 bg-[#121212] border border-[#25D366]/30 text-white text-[14px] font-bold rounded-full hover:bg-[#25D366]/10 hover:border-[#25D366] transition-all tracking-wide flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(37,211,102,0.05)] hover:shadow-[0_0_30px_rgba(37,211,102,0.2)] group"
                 >
-                  <MessageCircle size={20} /> CHAT WHATSAPP
+                  <MessageCircle size={20} className="text-[#25D366] group-hover:scale-110 transition-transform" /> CHAT WHATSAPP
                 </a>
                 <a
                   href="mailto:hello@suryo.ai"
-                  className="w-full sm:w-auto px-10 py-5 bg-transparent border border-white/20 text-white text-[14px] font-bold rounded-full hover:bg-white/10 transition-all tracking-wide flex items-center justify-center gap-3"
+                  className="w-full sm:w-auto px-10 py-5 bg-white text-black text-[14px] font-bold rounded-full hover:bg-gray-200 transition-all tracking-wide flex items-center justify-center gap-3"
                 >
                   <Calendar size={20} /> SCHEDULE CALL
                 </a>
